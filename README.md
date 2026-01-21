@@ -137,7 +137,7 @@ git clone https://github.com/vitorflopes/impar-ai-test.git
 cd impar-ai-test
 
 # Inicie os serviços (isso pode demorar na primeira vez)
-docker-compose up -d --build
+docker-compose up --build
 ```
 
 > **Nota do Build:** O build inicial irá baixar muitos arquivos. Tenha paciência.
