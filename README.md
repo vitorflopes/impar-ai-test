@@ -13,10 +13,9 @@ A solução foi construída com foco em **modularidade**, **performance** (assin
 
 ## 🎥 Demo
 
-![Chat Preview](assets/print-chat.png)
+[![Assista ao vídeo demonstrativo](https://img.youtube.com/vi/1y5F4rmLbp4/0.jpg)](https://youtu.be/1y5F4rmLbp4)
 
-> **Assista ao vídeo demonstrativo:** [assets/2026-01-21-00-10-40.mp4](assets/2026-01-21-00-10-40.mp4)  
-> _Nota: O vídeo não possui áudio, sendo apenas uma demonstração visual do sistema em funcionamento._
+> **Assista ao vídeo demonstrativo no YouTube:** [https://youtu.be/1y5F4rmLbp4](https://youtu.be/1y5F4rmLbp4)
 
 ---
 
