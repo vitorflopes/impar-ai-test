@@ -25,7 +25,9 @@ services:
   # Ollama (LLM local)
   # ================================
   ollama:
-    image: ollama/ollama
+    build:
+      context: ./docker
+      dockerfile: ollama.Dockerfile
     container_name: impar-ollama
     environment:
       - OLLAMA_MODEL=${OLLAMA_MODEL:-qwen3:4b}
@@ -33,8 +35,6 @@ services:
       - "11434:11434"
     volumes:
       - ollama_data:/root/.ollama
-      - ./docker/ollama-setup.sh:/ollama-setup.sh
-    entrypoint: ["/usr/bin/bash", "/ollama-setup.sh"]
     healthcheck:
       test: ["CMD-SHELL", "ollama list | grep -q $${OLLAMA_MODEL%%:*}"]
       interval: 30s
