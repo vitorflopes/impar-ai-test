@@ -1,0 +1,13 @@
+# General
+.DS_Store
+.vscode/
+.idea/
+*.log
+
+# Docker Volumes
+docker-data/
+postgres_data/
+ollama_data/
+
+# OS metadata
+thumbs.db

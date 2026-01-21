@@ -1,0 +1,93 @@
+services:
+  # ================================
+  # PostgreSQL com pgvector
+  # ================================
+  postgres:
+    image: pgvector/pgvector:pg16
+    container_name: impar-postgres
+    environment:
+      POSTGRES_USER: ${POSTGRES_USER:-admin}
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD:-secret}
+      POSTGRES_DB: ${POSTGRES_DB:-vector_db}
+    ports:
+      - "5432:5432"
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+      - ./docker/init-db.sql:/docker-entrypoint-initdb.d/init-db.sql
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U admin -d vector_db"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+    restart: unless-stopped
+
+  # ================================
+  # Ollama (LLM local)
+  # ================================
+  ollama:
+    image: ollama/ollama
+    container_name: impar-ollama
+    environment:
+      - OLLAMA_MODEL=${OLLAMA_MODEL:-qwen3:4b}
+    ports:
+      - "11434:11434"
+    volumes:
+      - ollama_data:/root/.ollama
+      - ./docker/ollama-setup.sh:/ollama-setup.sh
+    entrypoint: ["/usr/bin/bash", "/ollama-setup.sh"]
+    healthcheck:
+      test: ["CMD-SHELL", "ollama list | grep -q $${OLLAMA_MODEL%%:*}"]
+      interval: 30s
+      timeout: 10s
+      retries: 30
+      start_period: 600s
+    restart: unless-stopped
+
+  # ================================
+  # Backend API (Litestar)
+  # ================================
+  api:
+    build:
+      context: ./api
+      dockerfile: Dockerfile
+    container_name: impar-api
+    environment:
+      # Ollama
+      OLLAMA_HOST: http://ollama:11434
+      OLLAMA_MODEL: ${OLLAMA_MODEL:-qwen3:4b}
+      OLLAMA_TEMP: ${OLLAMA_TEMP:-0.1}
+      # PGVector
+      PGVECTOR_DATABASE_URL: postgresql+psycopg2://${POSTGRES_USER:-admin}:${POSTGRES_PASSWORD:-secret}@postgres:5432/${POSTGRES_DB:-vector_db}
+      PGVECTOR_COLLECTION_NAME: ${PGVECTOR_COLLECTION_NAME:-impar_docs}
+      # HuggingFace
+      HUGGINGFACE_MODEL_NAME: ${HUGGINGFACE_MODEL_NAME:-sentence-transformers/paraphrase-multilingual-MiniLM-L12-v2}
+      # Logging
+      LOG_LEVEL: ${LOG_LEVEL:-INFO}
+      # Scraping
+      SCRAPE_URL: ${SCRAPE_URL:-https://pt.wikipedia.org/wiki/Intelig%C3%AAncia_artificial}
+    ports:
+      - "8000:8000"
+    depends_on:
+      postgres:
+        condition: service_healthy
+      ollama:
+        condition: service_healthy
+    restart: unless-stopped
+
+  # ================================
+  # Frontend (Vue + Nginx)
+  # ================================
+  frontend:
+    build:
+      context: ./front
+      dockerfile: Dockerfile
+    container_name: impar-frontend
+    ports:
+      - "80:80"
+    depends_on:
+      - api
+    restart: unless-stopped
+
+volumes:
+  postgres_data:
+  ollama_data:

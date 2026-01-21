@@ -1,0 +1,44 @@
+[project]
+name = "api"
+version = "0.1.0"
+description = "Add your description here"
+readme = "README.md"
+requires-python = ">=3.13"
+dependencies = [
+    "beautifulsoup4>=4.14.3",
+    "langchain>=1.2.6",
+    "langchain-huggingface>=1.2.0",
+    "langchain-ollama>=1.0.1",
+    "langchain-postgres>=0.0.16",
+    "langchain-text-splitters>=1.1.0",
+    "langgraph>=1.0.6",
+    "litestar[standard]>=2.19.0",
+    "markitdown[docx,pptx]>=0.1.4",
+    "ollama>=0.6.1",
+    "openpyxl>=3.1.5",
+    "pandas>=2.3.3",
+    "pdfplumber>=0.11.9",
+    "pillow>=12.1.0",
+    "psycopg2-binary>=2.9.11",
+    "pydantic>=2.12.5",
+    "pytesseract>=0.3.13",
+    "requests>=2.32.5",
+    "ruff>=0.14.13",
+    "sentence-transformers>=5.2.0",
+]
+
+[tool.pyright]
+typeCheckingMode = "off"
+reportMissingImports = "none"
+reportMissingTypeStubs = "none"
+reportGeneralTypeIssues = "none"
+reportOptionalSubscript = "none"
+reportOptionalMemberAccess = "none"
+reportOptionalCall = "none"
+reportOptionalIterable = "none"
+reportOptionalContextManager = "none"
+reportOptionalOperand = "none"
+reportTypedDictNotRequiredAccess = "none"
+reportPrivateImportUsage = "none"
+reportUnboundVariable = "none"
+reportUnusedVariable = "none"
