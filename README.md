@@ -16,6 +16,8 @@ A solução foi construída com foco em **modularidade**, **performance** (assin
 <video src="assets/2026-01-21-00-10-40.mp4" controls="controls" style="max-width: 100%;">
 </video>
 
+O vídeo pode ser encontrado em: [assets/2026-01-21-00-10-40.mp4](assets/2026-01-21-00-10-40.mp4)
+
 > _Nota: O vídeo não possui áudio, sendo apenas uma demonstração visual do sistema em funcionamento._
 
 ---
@@ -133,7 +135,7 @@ A aplicação foi desenhada para ser "Zero Config" na primeira execução.
 
 ```bash
 # Clone o projeto
-git clone <URL_DO_REPO>
+git clone https://github.com/vitorflopes/impar-ai-test.git
 cd impar-ai-test
 
 # Inicie os serviços (isso pode demorar na primeira vez)
